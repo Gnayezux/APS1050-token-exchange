@@ -1,0 +1,12 @@
+[
+  {
+    "symbol": "TEST",
+    "name": "APS1050Token",
+    "address": "0x1A8B7156B3A785fc4740F1cc9E16206Cbeef7b14"
+  },
+  {
+    "symbol": "USDT",
+    "name": "Test USDT",
+    "address": "0x7169D38820dfd117C3FA1f22a697dBA58d90BA06"
+  }
+]

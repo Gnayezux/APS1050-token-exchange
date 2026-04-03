@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Wallet, Coins, PlusCircle, XCircle, Search, ArrowRightLeft } from 'lucide-react';
+import Balances from './Balances';
 
 function App() {
   const [account, setAccount] = useState('');
@@ -54,6 +55,7 @@ function App() {
   };
 
   const renderContent = () => {
+        if (activeView === 'balances') return <Balances account={account} />;
     
     // Default home view
     return (
