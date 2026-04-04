@@ -1,7 +1,6 @@
 {
   "name": "aps1050-token-exchange",
   "version": "1.0.0",
-  "main": "truffle-config.js",
   "directories": {
     "test": "test"
   },
@@ -13,6 +12,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.9.6"
+    "@openzeppelin/contracts": "^4.9.6",
+    "@nomicfoundation/hardhat-toolbox": "^6.1.2",
+    "hardhat": "^2.28.6"
+  },
+  "devDependencies": {
+    "hardhat": "^2.28.6"
   }
 }
