@@ -30,18 +30,18 @@ export default function Balances({ account }) {
       const provider = new ethers.BrowserProvider(window.ethereum);
       
       const network = await provider.getNetwork();
-      if (network.chainId !== 11155111n) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0xaa36a7' }],
-          });
-        } catch (switchError) {
-          setError("Please switch to the Sepolia network in MetaMask.");
-          setLoading(false);
-          return;
-        }
-      }
+      // if (network.chainId !== 11155111n) {
+      //   try {
+      //     await window.ethereum.request({
+      //       method: 'wallet_switchEthereumChain',
+      //       params: [{ chainId: '0xaa36a7' }],
+      //     });
+      //   } catch (switchError) {
+      //     setError("Please switch to the Sepolia network in MetaMask.");
+      //     setLoading(false);
+      //     return;
+      //   }
+      // }
 
       const tokenData = await Promise.all(
         tokensConfig.map(async (tokenDef) => {

@@ -5,6 +5,11 @@
     "address": "0x1A8B7156B3A785fc4740F1cc9E16206Cbeef7b14"
   },
   {
+  "symbol": "TEST2",
+  "name": "APS1050Token2",
+  "address": "0xA1D5Ea7EA9F343871b34a3d71fc20E71Bc6Af222"
+  },
+  {
     "symbol": "USDT",
     "name": "Test USDT",
     "address": "0x7169D38820dfd117C3FA1f22a697dBA58d90BA06"
