@@ -1,0 +1,51 @@
+### To deploy the APS1050 Token Exchange locally and test its functionalities, make sure to deploy all 3 contracts (including 2 test token contracts)
+
+0. Make sure you already have hardhat installed! To do so, simply `$ npm install` in the current directory, verify with `$ npx hardhat` to see if it can run.
+
+1. First, start a local Ethereum chain with Hardhat. -> 
+	```
+	$ npx hardhat node
+	```
+
+2. It should output a bunch of accounts and private keys. Pick the first account (#0) and import its private key to your browser extension (MetaMask for instance) 
+Open up Metamask and configure a new RPC server -> the local chain spawned by Hardhat `http://127.0.0.1:8545/`
+
+3. Now deploy the contracts. -> 
+	```
+	$ npx hardhat ignition deploy ./ignition/Modules/Exchange.ts --network localhost
+	$ npx hardhat ignition deploy ./ignition/Modules/TestToken1.ts --network localhost
+	$ npx hardhat ignition deploy ./ignition/Modules/TestToken2.ts --network localhost
+	```
+
+4. Now notice the deployed address for the token exchange contract. After the above 3 contracts are deployed, Hardhat should show you something like this in the terminal: 
+	```
+	Deployed Addresses
+
+	TokenExchange#TokenExchange - 0x5FbDB2315678afecb367f032d93F642f64180aa3
+	MyToken#MyToken - 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+	Mytoken2#Mytoken2 - 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+	```
+
+5. Paste the TokenExchange contract address to `exchangeConfig.js` file. (EXCHANGE_ADDRESS).
+Change chainId on line 130 to `31337`
+
+6. Go to the frontend directory and run 
+	```
+	$ npm run dev
+	```
+
+7. Open up your browser and visit `http://localhost:5173/` 
+
+
+8. Go to the "Token Balances" page and try to mint some test tokens of 2 kinds. Make sure your metamask is configured so that the TokenSwap UI can only access the local Hardhat chain! 
+
+9. If mint is successful, you will see the balance being refreshed. You can also check the terminal window where you started the local chain to see events like `eth_sendRawTransaction` followed by the mint details. 
+
+10. *** Now for the Create Order flow ***, navigate to the "Create Order" tab and fill all the required fields, then press "Publish On-Chain" 
+
+11. It should try to ask you to sign transaction to approve spending caps in the token you want to trade for, then it will ask you to sign the order, and finally ask for a transaction to hit the Token Exchange contract and publish order on chain. 
+
+12. You can verify from the terminal window where you spawned the local chain that the createOrder function is called for the Token Exchange contract. 
+
+
+
