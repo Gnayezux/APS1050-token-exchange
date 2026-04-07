@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Wallet, Coins, PlusCircle, XCircle, Search, ArrowRightLeft } from 'lucide-react';
 import Balances from './Balances';
 import CreateOrder from './CreateOrder';
+import ExploreOrder from './ExploreOrders';
 
 function App() {
   const [account, setAccount] = useState('');
@@ -58,6 +59,7 @@ function App() {
   const renderContent = () => {
         if (activeView === 'balances') return <Balances account={account} />;
         if (activeView === 'create') return <CreateOrder account={account} />;
+        if (activeView === 'explore') return <ExploreOrder account={account} />;
     
     // Default home view
     return (
