@@ -3,6 +3,8 @@ import { Wallet, Coins, PlusCircle, XCircle, Search, ArrowRightLeft } from 'luci
 import Balances from './Balances';
 import CreateOrder from './CreateOrder';
 import ExploreOrder from './ExploreOrders';
+import CancelOrder from './CancelOrder';
+
 
 function App() {
   const [account, setAccount] = useState('');
@@ -60,6 +62,7 @@ function App() {
         if (activeView === 'balances') return <Balances account={account} />;
         if (activeView === 'create') return <CreateOrder account={account} />;
         if (activeView === 'explore') return <ExploreOrder account={account} />;
+        if (activeView === 'cancel') return <CancelOrder account={account} />;
     
     // Default home view
     return (
