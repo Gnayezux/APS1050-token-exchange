@@ -68,6 +68,9 @@ Change chainId on line 130 to `31337`
 15. Fill all the required fields at the "Cancel Order" page and make sure you are putting the correct nonce obtained using the step above. DO NOT include the trailing "n" symbol of the nonce. Double check order expiry and make sure it matches the one you used when creating the order.
 
 16. After hitting the cancel order button, you can go back to the "Explore Orders" page and see that the cancelled order is no longer displayed there. 
+
+17. To test the "Fill Order" functionality, go to "Explore Orders" page and click "Fill Order" button, follow the prompt to enter the amount you wish to buy.
+	IMPORTANT: You must use 2 different wallet addresses in your local node in order to test this feature. Otherwise, the same wallet acts as buyer and seller, and you won't see the token balances changed after a successful transaction.
 	
 
 

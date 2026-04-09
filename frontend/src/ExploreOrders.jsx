@@ -140,6 +140,69 @@ export default function ExploreOrders({ account }) {
   const getTokenSymbol = (addr) => tokenMeta[addr]?.symbol || formatAddress(addr);
   const getTokenDecimals = (addr) => tokenMeta[addr]?.decimals || 18;
 
+  const handleFillOrder = async (order) => {
+
+    const symbolSold = getTokenSymbol(order.tokenSold);
+    const symbolWant = getTokenSymbol(order.tokenWant);
+    const decimalsSold = getTokenDecimals(order.tokenSold);
+    const decimalsWant = getTokenDecimals(order.tokenWant);
+    const maxAvailable = ethers.formatUnits(order.soldLeft, decimalsSold);
+    
+    const amountToBuyStr = window.prompt(`How much ${symbolSold} do you want to buy? (Max: ${maxAvailable})`, maxAvailable);
+    if (!amountToBuyStr) return;
+
+    try {
+      const amountToBuy = ethers.parseUnits(amountToBuyStr, decimalsSold);
+      if (amountToBuy <= 0n || amountToBuy > order.soldLeft) {
+        alert("Invalid amount to buy.");
+        return;
+      }
+
+      const amountToPay = (amountToBuy * order.amountWant) / order.amountSold;
+      if (!window.confirm(`You will pay ${ethers.formatUnits(amountToPay, decimalsWant)} in ${symbolWant}. Continue?`)) return; // User declined
+
+      setLoading(true);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(EXCHANGE_ADDRESS, EXCHANGE_ABI, signer);
+
+      // We need to approve the exchange to spend our tokenWant
+      const tokenWantContract = new ethers.Contract(order.tokenWant, ERC20_ABI, signer);
+
+      const allowance = await tokenWantContract.allowance(account, EXCHANGE_ADDRESS);
+      if (allowance < amountToPay) {
+        const approveTx = await tokenWantContract.approve(EXCHANGE_ADDRESS, amountToPay);
+        await approveTx.wait();
+      }
+
+      const fillOrderStruct = {
+        seller: order.seller,
+        amountSold: order.amountSold,
+        amountWant: order.amountWant,
+        expiry: order.expiry / 1000n,
+        nonce: order.nonce,
+        sig: order.sig,
+        amountToBuy: amountToBuy,
+        buyerNonce: order.buyerNonce + 1n
+      };
+
+      const tx = await contract.fillOrder(
+        order.tokenSold,
+        order.tokenWant,
+        fillOrderStruct
+      );
+
+      await tx.wait();
+      alert("Order filled successfully!");
+      fetchOrders();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to fill order: " + (err.reason || err.message));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Filter and sort the displayed orders dynamically
   const now = BigInt(Date.now());
   
@@ -266,7 +329,11 @@ export default function ExploreOrders({ account }) {
                   <div className="flex flex-col text-right">
                     <span className="text-xs text-slate-500 mb-1">You Pay (Total)</span>
                     <span className="text-lg font-bold text-slate-900">
-                      {ethers.formatUnits(order.amountWant, getTokenDecimals(order.tokenWant))} <span className="text-sm font-normal text-slate-500">{getTokenSymbol(order.tokenWant)}</span>
+                      {
+                        ethers.formatUnits(order.amountWant, getTokenDecimals(order.tokenWant)) / 
+                        ethers.formatUnits(order.amountSold, getTokenDecimals(order.tokenSold)) * 
+                        ethers.formatUnits(order.soldLeft, getTokenDecimals(order.tokenSold))
+                      } <span className="text-sm font-normal text-slate-500">{getTokenSymbol(order.tokenWant)}</span>
                     </span>
                   </div>
                 </div>
@@ -286,7 +353,7 @@ export default function ExploreOrders({ account }) {
                   <button 
                     disabled={isExpired}
                     className={`${isExpired ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm'} px-4 py-2 rounded-lg text-sm font-semibold transition-colors`}
-                    // TODO: Implement order filling
+                    onClick={() => handleFillOrder(order)}
                   >
                     {isExpired ? 'Expired' : 'Fill Order'}
                   </button>
