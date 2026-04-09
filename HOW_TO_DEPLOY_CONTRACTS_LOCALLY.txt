@@ -1,6 +1,7 @@
 ### To deploy the APS1050 Token Exchange locally and test its functionalities, make sure to deploy all 3 contracts (including 2 test token contracts)
 
-0. Make sure you already have hardhat installed! To do so, simply `$ npm install` in the current directory, verify with `$ npx hardhat` to see if it can run.
+0. Make sure you already have hardhat installed! 
+To do so, simply `$ npm install` in the current directory, verify with `$ npx hardhat` to see if it can run.
 
 1. First, start a local Ethereum chain with Hardhat. -> 
 	```
@@ -31,6 +32,7 @@ Change chainId on line 130 to `31337`
 
 6. Go to the frontend directory and run 
 	``` (Use a separate terminal window) 
+	$ npm install
 	$ npm run dev
 	```
 
