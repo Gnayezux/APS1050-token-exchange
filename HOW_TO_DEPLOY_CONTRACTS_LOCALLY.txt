@@ -29,6 +29,7 @@ Open up Metamask and configure a new RPC server -> the local chain spawned by Ha
 
 5. Paste the TokenExchange contract address to `exchangeConfig.js` file. (EXCHANGE_ADDRESS).
 Change chainId on line 130 to `31337`
+Then, use the address above for the 2 test tokens you will use, modify the `tokensConfig.json` file and change the token's address with the latest one you get after local deployment.
 
 6. Go to the frontend directory and run 
 	``` (Use a separate terminal window) 
