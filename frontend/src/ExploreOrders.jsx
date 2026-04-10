@@ -128,6 +128,10 @@ export default function ExploreOrders({ account }) {
       );
       setTokenMeta(meta);
       setOrders(ordersWithData);
+      ordersWithData.forEach(order => {
+        console.log(order.soldLeft);
+        console.log(order.nonce); // Extra debug output so we can fetch the order's nonce faster (i.e. use it for cancelling the order)
+      })
     } catch (err) {
       console.error(err);
       setError("Failed to fetch orders. " + err.message);

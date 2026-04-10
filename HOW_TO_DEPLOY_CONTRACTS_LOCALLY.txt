@@ -50,6 +50,8 @@ Change chainId on line 130 to `31337`
 
 13. Now, navigate to the "Explore Orders" page to view the order you have just created. 
 
+13.5 We've included a simplified workflow for obtaining the nonce for any posted order. This would save your time by simply checking it in the browser console at the explore orders page. If you want the full flavor, feel free to follow step 14 below. 
+
 14. To test the "Cancel Order" functionality, you need to know the nonce of the create order event. This is usually easy by going to an explorer like EtherScan, but with local node spawned by HardHat, you need to use extra manual steps. 
 	``` (Use a separate terminal window) 
 	$ npx hardhat console --network localhost
